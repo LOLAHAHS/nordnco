@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nord & Co — Investment & Operating Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #16213A;
+    --ink-70: rgba(22,33,58,0.70);
+    --ink-45: rgba(22,33,58,0.45);
+    --ink-12: rgba(22,33,58,0.12);
+    --ink-06: rgba(22,33,58,0.06);
+    --paper: #F3F1EB;
+    --paper-dim: #EAE6DB;
+    --paper-70: rgba(243,241,235,0.70);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
+  }
+
+  h1,h2,h3, .serif{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    letter-spacing:-0.01em;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+
+  .eyebrow{
+    font-size:0.72rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--ink-45);
+    font-weight:600;
+  }
+
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:var(--paper-70);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--ink-12);
+  }
+  nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:20px 32px;
+    max-width:1120px;
+    margin:0 auto;
+  }
+  .logo{
+    font-family:'Fraunces', serif;
+    font-size:1.25rem;
+    font-weight:600;
+    letter-spacing:-0.01em;
+  }
+  .logo span{ color:var(--ink-45); font-weight:400; }
+  .navlinks{
+    display:flex;
+    gap:36px;
+    font-size:0.88rem;
+    font-weight:500;
+  }
+  .navlinks a{
+    position:relative;
+    padding-bottom:4px;
+    color:var(--ink-70);
+    transition:color 0.2s ease;
+  }
+  .navlinks a:hover{ color:var(--ink); }
+  .navlinks a::after{
+    content:'';
+    position:absolute;
+    left:0; bottom:0;
+    width:0%;
+    height:1px;
+    background:var(--ink);
+    transition:width 0.25s ease;
+  }
+  .navlinks a:hover::after{ width:100%; }
+
+  @media (max-width:720px){
+    .navlinks{ display:none; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:120px 32px 100px;
+    max-width:1120px;
+    margin:0 auto;
+    position:relative;
+  }
+  .hero .eyebrow{ margin-bottom:22px; display:block; }
+  .hero h1{
+    font-size:clamp(2.6rem, 6.5vw, 5.2rem);
+    line-height:1.03;
+    max-width:920px;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--ink-45);
+  }
+  .hero p{
+    margin-top:28px;
+    max-width:520px;
+    font-size:1.05rem;
+    color:var(--ink-70);
+  }
+  .hero-cta{
+    margin-top:40px;
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-block;
+    padding:14px 26px;
+    font-size:0.9rem;
+    font-weight:600;
+    border-radius:2px;
+    transition:all 0.2s ease;
+  }
+  .btn-primary{
+    background:var(--ink);
+    color:var(--paper);
+  }
+  .btn-primary:hover{ background:#0d1526; }
+  .btn-ghost{
+    border:1px solid var(--ink-12);
+    color:var(--ink);
+  }
+  .btn-ghost:hover{ border-color:var(--ink); }
+
+  /* ---------- NODE DIAGRAM (signature element) ---------- */
+  .node-stage{
+    margin-top:90px;
+    width:100%;
+  }
+  .node-stage svg{ width:100%; height:auto; display:block; }
+
+  .node-line{
+    stroke:var(--ink);
+    stroke-opacity:0.22;
+    stroke-width:1;
+    stroke-dasharray:400;
+    stroke-dashoffset:400;
+    animation:draw 1.6s ease forwards;
+  }
+  .node-line.d1{ animation-delay:0.1s; }
+  .node-line.d2{ animation-delay:0.25s; }
+  .node-line.d3{ animation-delay:0.4s; }
+  .node-line.d4{ animation-delay:0.55s; }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+
+  .node-dot{ fill:var(--ink); }
+  .node-dot.core{ fill:var(--ink); }
+  .node-label{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:12px;
+    fill:var(--ink-70);
+    font-weight:500;
+  }
+  .node-label.core-label{ fill:var(--paper); font-weight:600; }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{ padding:100px 0; }
+  .divider{
+    height:1px;
+    background:var(--ink-12);
+  }
+  .section-head{
+    margin-bottom:56px;
+    max-width:640px;
+  }
+  .section-head .eyebrow{ margin-bottom:16px; }
+  .section-head h2{
+    font-size:clamp(1.8rem, 3.4vw, 2.6rem);
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:64px;
+    align-items:start;
+  }
+  .about-grid p{
+    color:var(--ink-70);
+    font-size:1rem;
+    margin-bottom:18px;
+  }
+  .about-figures{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1px;
+    background:var(--ink-12);
+    border:1px solid var(--ink-12);
+  }
+  .figure{
+    background:var(--paper);
+    padding:28px 24px;
+  }
+  .figure .num{
+    font-family:'Fraunces', serif;
+    font-size:2.1rem;
+    font-weight:500;
+  }
+  .figure .lbl{
+    margin-top:6px;
+    font-size:0.82rem;
+    color:var(--ink-45);
+  }
+
+  @media (max-width:820px){
+    .about-grid{ grid-template-columns:1fr; }
+  }
+
+  /* ---------- WHAT WE DO ---------- */
+  .pillars{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1px;
+    background:var(--ink-12);
+    border:1px solid var(--ink-12);
+  }
+  .pillar{
+    background:var(--paper);
+    padding:44px 36px;
+  }
+  .pillar .mark{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:0.95rem;
+    color:var(--ink-45);
+    margin-bottom:22px;
+    display:block;
+  }
+  .pillar h3{
+    font-size:1.35rem;
+    margin-bottom:14px;
+    font-weight:500;
+  }
+  .pillar p{
+    font-size:0.92rem;
+    color:var(--ink-70);
+  }
+
+  @media (max-width:820px){
+    .pillars{ grid-template-columns:1fr; }
+  }
+
+  /* ---------- NETWORK / PARTNERS ---------- */
+  .network-intro{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:24px;
+    flex-wrap:wrap;
+  }
+  .network-intro p{
+    max-width:440px;
+    color:var(--ink-70);
+    font-size:0.95rem;
+  }
+
+  .network-grid{
+    margin-top:48px;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:20px;
+  }
+  @media (max-width:820px){
+    .network-grid{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width:560px){
+    .network-grid{ grid-template-columns:1fr; }
+  }
+
+  .node-card{
+    border:1px solid var(--ink-12);
+    padding:26px 22px;
+    background:var(--paper);
+    transition:border-color 0.2s ease, transform 0.2s ease;
+    position:relative;
+    min-height:150px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+  .node-card:hover{ border-color:var(--ink-45); transform:translateY(-2px); }
+
+  .node-card .tag{
+    font-size:0.68rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--ink-45);
+    font-weight:600;
+  }
+  .node-card .tag.own{ color:var(--ink); }
+
+  .node-card h4{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:1.15rem;
+    margin-top:14px;
+  }
+  .node-card .placeholder-note{
+    margin-top:10px;
+    font-size:0.8rem;
+    color:var(--ink-45);
+    font-style:italic;
+  }
+  .node-card .arrow{
+    margin-top:16px;
+    font-size:0.85rem;
+    color:var(--ink-45);
+  }
+
+  /* dashed = empty/future slot */
+  .node-card.empty{
+    border-style:dashed;
+    border-color:var(--ink-12);
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+  }
+  .node-card.empty .tag{ margin-bottom:8px; }
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:64px;
+  }
+  .contact-list{ margin-top:28px; }
+  .contact-row{
+    display:flex;
+    justify-content:space-between;
+    padding:18px 0;
+    border-bottom:1px solid var(--ink-12);
+    font-size:0.95rem;
+  }
+  .contact-row .k{ color:var(--ink-45); }
+  .contact-row .v{ font-weight:500; }
+
+  .contact-form-note{
+    background:var(--paper-dim);
+    border:1px solid var(--ink-12);
+    padding:32px;
+    font-size:0.9rem;
+    color:var(--ink-70);
+  }
+  .contact-form-note strong{ color:var(--ink); display:block; margin-bottom:8px; font-family:'Fraunces', serif; font-size:1.1rem; font-weight:500; }
+
+  @media (max-width:820px){
+    .contact-grid{ grid-template-columns:1fr; }
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:40px 32px;
+    border-top:1px solid var(--ink-12);
+  }
+  .footer-row{
+    max-width:1120px;
+    margin:0 auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:16px;
+    font-size:0.82rem;
+    color:var(--ink-45);
+  }
+
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">NORD <span>&</span> CO</div>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#what-we-do">What We Do</a>
+      <a href="#network">Network</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero" style="padding-bottom:20px;">
+  <span class="eyebrow">Investment &amp; Operating Group — Nordic Origin</span>
+  <h1>Capital, companies,<br> and the <em>connections</em><br> between them.</h1>
+  <p>Nord & Co invests, operates, and connects — holding our own ventures while building the bridges that let partner companies move further together.</p>
+  <div class="hero-cta">
+    <a href="#network" class="btn btn-primary">See the network</a>
+    <a href="#contact" class="btn btn-ghost">Get in touch</a>
+  </div>
+
+  <div class="node-stage">
+    <svg viewBox="0 0 1000 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing Nord & Co at the center, connected to its own operations and partner companies">
+      <!-- connecting lines -->
+      <line class="node-line d1" x1="500" y1="160" x2="200" y2="60" />
+      <line class="node-line d2" x1="500" y1="160" x2="150" y2="240" />
+      <line class="node-line d3" x1="500" y1="160" x2="800" y2="70" />
+      <line class="node-line d4" x1="500" y1="160" x2="840" y2="250" />
+      <line class="node-line d2" x1="500" y1="160" x2="500" y2="290" />
+
+      <!-- outer nodes -->
+      <circle class="node-dot" cx="200" cy="60" r="4" />
+      <text class="node-label" x="215" y="55">Operations — Nordic Trade</text>
+
+      <circle class="node-dot" cx="150" cy="240" r="4" />
+      <text class="node-label" x="165" y="245">Operations — Field Services</text>
+
+      <circle class="node-dot" cx="800" cy="70" r="4" />
+      <text class="node-label" x="700" y="55" text-anchor="start">Partner Co.</text>
+
+      <circle class="node-dot" cx="840" cy="250" r="4" />
+      <text class="node-label" x="700" y="270" text-anchor="start">Partner Co.</text>
+
+      <circle class="node-dot" cx="500" cy="290" r="4" />
+      <text class="node-label" x="440" y="312" text-anchor="middle">Open slot</text>
+
+      <!-- core -->
+      <circle class="node-dot core" cx="500" cy="160" r="34" />
+      <text class="node-label core-label" x="500" y="165" text-anchor="middle">NORD &amp; CO</text>
+    </svg>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">About</span>
+      <h2>Three roles, one direction.</h2>
+    </div>
+    <div class="about-grid">
+      <div>
+        <p>Nord & Co began as an investment vehicle and grew into something less easily categorized: part capital allocator, part operator, part connective tissue between companies that were often already working toward the same goals without knowing it.</p>
+        <p>We hold stakes. We run our own operations directly. And in a growing number of cases, we act as the intermediary that helps two capable companies find each other — structuring the deal, the introduction, or the ongoing relationship that makes the collaboration work.</p>
+        <p>It is a deliberately Nordic approach to business: understated, long-term, and built on the belief that trust compounds faster than hype.</p>
+      </div>
+      <div class="about-figures">
+        <div class="figure">
+          <div class="num">01</div>
+          <div class="lbl">Investment arm</div>
+        </div>
+        <div class="figure">
+          <div class="num">02</div>
+          <div class="lbl">Own operations</div>
+        </div>
+        <div class="figure">
+          <div class="num">03</div>
+          <div class="lbl">Partner network</div>
+        </div>
+        <div class="figure">
+          <div class="num">04</div>
+          <div class="lbl">Long-term hold</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<section id="what-we-do">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">What We Do</span>
+      <h2>How Nord & Co shows up.</h2>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <span class="mark">Invest</span>
+        <h3>Capital with conviction</h3>
+        <p>We take direct positions in companies we believe in, providing not just funding but the operational judgment that comes from running businesses ourselves.</p>
+      </div>
+      <div class="pillar">
+        <span class="mark">Operate</span>
+        <h3>Businesses of our own</h3>
+        <p>Alongside our investment activity, Nord & Co runs its own operating ventures end-to-end — giving us a working understanding of the challenges our partners face.</p>
+      </div>
+      <div class="pillar">
+        <span class="mark">Connect</span>
+        <h3>The bridge between companies</h3>
+        <p>Where two businesses stand to gain from working together, we step in as the trusted middleman — structuring introductions, terms, and ongoing collaboration.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<section id="network">
+  <div class="wrap">
+    <div class="network-intro">
+      <div class="section-head" style="margin-bottom:0;">
+        <span class="eyebrow">Network</span>
+        <h2>Our operations & partners.</h2>
+      </div>
+      <p>A growing map of the companies Nord & Co runs directly, and the partners we've helped connect. This section will expand as new collaborations are added.</p>
+    </div>
+
+    <div class="network-grid">
+
+      <!-- OWN OPERATION CARD — duplicate this block for each in-house operation -->
+      <a href="#" class="node-card">
+        <div>
+          <span class="tag own">Own Operation</span>
+          <h4>Operation Name</h4>
+          <p class="placeholder-note">Replace with your own operation's name, one-line description, and link.</p>
+        </div>
+        <span class="arrow">Visit ↗</span>
+      </a>
+
+      <!-- PARTNER CARD — duplicate this block for each partner company -->
+      <a href="#" class="node-card">
+        <div>
+          <span class="tag">Partner</span>
+          <h4>Partner Name</h4>
+          <p class="placeholder-note">Replace with the partner's name, one-line description, and their website link.</p>
+        </div>
+        <span class="arrow">Visit ↗</span>
+      </a>
+
+      <!-- PARTNER CARD -->
+      <a href="#" class="node-card">
+        <div>
+          <span class="tag">Partner</span>
+          <h4>Partner Name</h4>
+          <p class="placeholder-note">Duplicate this card for each additional partner as your network grows.</p>
+        </div>
+        <span class="arrow">Visit ↗</span>
+      </a>
+
+      <!-- EMPTY / FUTURE SLOT — leave as-is until ready, or delete -->
+      <div class="node-card empty">
+        <span class="tag">Coming soon</span>
+        <p class="placeholder-note" style="margin-top:0;">A new operation or partner will be added here.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Contact</span>
+      <h2>Start a conversation.</h2>
+    </div>
+    <div class="contact-grid">
+      <div>
+        <p style="color:var(--ink-70); max-width:420px;">Whether you're exploring an investment, proposing a collaboration, or want to learn more about our own operations — reach out directly.</p>
+        <div class="contact-list">
+          <div class="contact-row"><span class="k">Email</span><span class="v">hello@nordandco.com</span></div>
+          <div class="contact-row"><span class="k">Phone</span><span class="v">+46 00 000 00 00</span></div>
+          <div class="contact-row"><span class="k">Location</span><span class="v">Gothenburg, Sweden</span></div>
+        </div>
+      </div>
+      <div class="contact-form-note">
+        <strong>Prefer a form?</strong>
+        This section is set up for a simple contact form or a direct mailto link. Let me know which you'd like and I can wire it up — including lead capture if you want submissions collected automatically.
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-row">
+    <span>© 2026 Nord & Co</span>
+    <span>Gothenburg, Sweden</span>
+  </div>
+</footer>
+
+</body>
+</html>
